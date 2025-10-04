@@ -153,8 +153,7 @@ const Footer: React.FC = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors duration-200 flex items-center justify-center space-x-2 text-sm"
-              >
+                className="w-full bg-gradient-to-r from-green-500 to-blue-600 text-white px-4 py-2 rounded-md transition-colors duration-200 flex items-center justify-center space-x-2 text-sm">
                 <Send className="h-4 w-4" />
                 <span>Subscribe</span>
               </button>
