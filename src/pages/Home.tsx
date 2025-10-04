@@ -1,16 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  ArrowRight, 
-  CheckCircle, 
-  Users, 
-  Calendar, 
+import {
+  ArrowRight,
+  CheckCircle,
+  Users,
+  Calendar,
   Trophy,
   Building2,
   Wrench,
   HardHat
 } from 'lucide-react';
-
+import TypingText from '../components/TypingText';
+const currentYear = new Date().getFullYear();
 const Home: React.FC = () => {
   const features = [
     {
@@ -44,10 +45,10 @@ const Home: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Building Your Dreams Into Reality
+              <TypingText text="Your Dream. Our Foundation." speed={100} pause={2000} />
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100 leading-relaxed">
-              Professional construction services with over 20 years of experience. 
+              Professional construction services in {currentYear}.<br />
               Quality craftsmanship, timely delivery, and exceptional service.
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -74,22 +75,29 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose BuildPro?
+              Why Choose Amman Construction?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               We deliver exceptional construction services with unmatched quality and professionalism.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div
+                key={index}
+                className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:bg-blue-100 transition duration-300 cursor-pointer transform"
+              >
                 <div className="mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  {feature.title}
+                </h3>
                 <p className="text-gray-600 leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
+
+
         </div>
       </section>
 
@@ -119,23 +127,27 @@ const Home: React.FC = () => {
               From residential homes to commercial buildings, we handle projects of all sizes.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {[
               'Residential Construction',
-              'Commercial Buildings', 
+              'Commercial Buildings',
               'Renovation & Remodeling',
               'Project Management',
               'Consulting Services',
               'Maintenance & Repairs'
             ].map((service, index) => (
-              <div key={index} className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+              <div
+                key={index}
+                className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-white hover:shadow-md transition duration-300"
+              >
                 <CheckCircle className="h-5 w-5 text-green-500" />
                 <span className="text-gray-700 font-medium">{service}</span>
               </div>
             ))}
           </div>
-          
+
+
           <div className="text-center">
             <Link
               to="/services"

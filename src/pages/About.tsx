@@ -47,10 +47,10 @@ const About: React.FC = () => {
       <section className="bg-gradient-to-r from-gray-900 to-gray-700 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About BuildPro</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">About Amman Construction</h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Two decades of building excellence, one project at a time. 
-              Your trusted partner in construction since 2004.
+              Your trusted partner in construction since 2025.
             </p>
           </div>
         </div>
@@ -64,20 +64,13 @@ const About: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  Founded in 2004, BuildPro Construction began as a small family business with a big vision: 
-                  to deliver exceptional construction services that exceed client expectations. What started 
-                  as a residential construction company has evolved into a full-service construction firm 
-                  handling projects of all sizes.
+                  Founded in 2025, BuildPro Construction was launched with a clear mission: to deliver exceptional construction services that go beyond expectations. With a strong foundation in craftsmanship, innovation, and integrity, we set out to redefine what clients can expect from a modern construction partner.
                 </p>
                 <p>
-                  Over the years, we've built more than structures – we've built relationships. Our commitment 
-                  to quality, integrity, and customer satisfaction has earned us a reputation as one of the 
-                  most trusted construction companies in the region.
+                  While we're a newly established company, our team brings together years of combined experience across residential, commercial, and renovation projects. Every structure we build is a testament to our commitment to quality, precision, and client satisfaction.
                 </p>
                 <p>
-                  Today, we're proud to have completed over 1,000 projects, employed hundreds of skilled 
-                  professionals, and contributed to the growth and development of our community. But our 
-                  mission remains the same: building your dreams into reality.
+                  From day one, we’ve focused on building more than just buildings — we’re building trust, relationships, and a lasting impact in the communities we serve. As we grow, our dedication remains the same: <strong className="text-blue-600">Your Dream. Our Foundation.</strong>
                 </p>
               </div>
             </div>

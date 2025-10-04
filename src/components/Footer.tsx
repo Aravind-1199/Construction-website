@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  HardHat, 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Facebook, 
-  Twitter, 
-  Instagram, 
+import {
+  HardHat,
+  Phone,
+  Mail,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
   Linkedin,
   Send
 } from 'lucide-react';
@@ -22,7 +22,9 @@ const Footer: React.FC = () => {
     setEmail('');
     alert('Thank you for subscribing to our newsletter!');
   };
-
+  const startYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const yearsOfExperience = currentYear - startYear;
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -33,22 +35,42 @@ const Footer: React.FC = () => {
               <div className="bg-blue-600 p-2 rounded-lg">
                 <HardHat className="h-6 w-6 text-white" />
               </div>
-              <span className="text-2xl font-bold">BuildPro</span>
+              <span className="text-2xl font-bold">Amman Construction</span>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Building dreams with precision and excellence. Your trusted construction partner for over 20 years.
+              Building dreams with precision and excellence. Your trusted construction partner for over {yearsOfExperience} years.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+              <a
+                href="https://www.facebook.com/login.php"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+              >
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+              <a
+                href="https://twitter.com/login"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+              >
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+              <a
+                href="https://www.instagram.com/accounts/login/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+              >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+              <a
+                href="https://www.linkedin.com/login"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+              >
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
@@ -92,11 +114,15 @@ const Footer: React.FC = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-300 text-sm">(555) 123-4567</span>
+                <a href="tel:91+8754226705" className="text-gray-300 text-sm hover:underline">
+                  8754226705
+                </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-300 text-sm">info@buildpro.com</span>
+                <a href="mailto:ammanconstruction2025@gmail.com" className="text-gray-300 text-sm hover:underline">
+                  ammanconstruction2025@gmail.com
+                </a>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-blue-400 mt-0.5" />
@@ -140,7 +166,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2024 BuildPro Construction. All rights reserved.
+              © 2025 Amman Construction. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">

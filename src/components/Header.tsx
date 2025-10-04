@@ -28,7 +28,7 @@ const Header: React.FC = () => {
               <div className="bg-blue-600 p-2 rounded-lg">
                 <HardHat className="h-6 w-6 text-white" />
               </div>
-              <span className="text-2xl font-bold text-gray-900">BuildPro</span>
+              <span className="text-2xl font-bold text-gray-900">Amman Construction</span>
             </Link>
           </div>
 
