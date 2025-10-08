@@ -1,183 +1,162 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  projectType: string;
+  budget: string;
+  timeline: string;
+  message: string;
+}
+
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    projectType: '',
-    budget: '',
-    timeline: '',
-    message: ''
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    projectType: "",
+    budget: "",
+    timeline: "",
+    message: ""
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState("");
+
+  const contactInfo = [
+    { icon: <Phone className="h-6 w-6 text-red-600" />, title: 'Phone', details: '(555) 123-4567', description: 'Mon-Fri 8AM-6PM' },
+    { icon: <Mail className="h-6 w-6 text-red-600" />, title: 'Email', details: 'info@buildpro.com', description: 'We respond within 24 hours' },
+    { icon: <MapPin className="h-6 w-6 text-red-600" />, title: 'Office', details: '123 Construction Ave', description: 'Building City, BC 12345' },
+    { icon: <Clock className="h-6 w-6 text-red-600" />, title: 'Hours', details: 'Mon-Fri: 8AM-6PM', description: 'Sat: 9AM-4PM' }
+  ];
+
+  const services = [
+    'Residential Construction',
+    'Commercial Construction',
+    'Renovation & Remodeling',
+    'Industrial Projects',
+    'Project Management',
+    'Consulting Services'
+  ];
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/sendmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        alert("Thank you! We'll get back to you within 24 hours.");
+      const data = await res.json();
+
+      if (data.success) {
+        console.log("Success:", data.message);
         setFormData({
-          name: '', email: '', phone: '', company: '', projectType: '',
-          budget: '', timeline: '', message: ''
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          projectType: "",
+          budget: "",
+          timeline: "",
+          message: ""
         });
       } else {
-        alert('Something went wrong. Please try again later.');
+        console.log("Error:", data.message || "Failed to send message");
       }
     } catch (err) {
-      console.error(err);
-      alert('Error sending message.');
+      console.log("Error: Something went wrong. Try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const contactInfo = [
-    { icon: <Phone />, title: 'Phone', details: '(555) 123-4567', description: 'Mon-Fri 8AM-6PM' },
-    { icon: <Mail />, title: 'Email', details: 'info@buildpro.com', description: 'We respond within 24 hours' },
-    { icon: <MapPin />, title: 'Office', details: '123 Construction Ave', description: 'Building City, BC 12345' },
-    { icon: <Clock />, title: 'Hours', details: 'Mon-Fri: 8AM-6PM', description: 'Sat: 9AM-4PM' }
-  ];
 
-  const services = [
-    'Residential Construction', 'Commercial Construction', 'Renovation & Remodeling',
-    'Industrial Projects', 'Project Management', 'Consulting Services'
-  ];
+
 
   return (
-    <div className="pt-16">
-      <section className="bg-gradient-to-r from-green-500 to-blue-600 text-white py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
-        <p className="text-xl md:text-2xl text-blue-200 max-w-3xl mx-auto">
-          Ready to start your construction project? Get in touch for a free consultation and quote.
-        </p>
+    <div className="relative bg-gray-50 text-gray-800 font-montserrat">
+      {/* Hero */}
+      <section className="relative h-[400px] flex items-center justify-center bg-gradient-to-r from-red-500 to-orange-500">
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="relative z-10 text-center text-white">
+          <h1 className="text-5xl font-extrabold drop-shadow-md mb-3">Contact Us</h1>
+          <p className="text-lg text-orange-200">We're Here to Serve & Connect with You</p>
+        </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Get Free Quote</h2>
+      {/* Contact Form */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 bg-white/80 backdrop-blur-lg border border-gray-100 shadow-xl rounded-2xl p-8">
+            <h2 className="text-3xl font-bold text-red-700 mb-6">Get Free Quote</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="text" name="name" value={formData.name} onChange={handleInputChange}
-                  placeholder="Full Name*" required
-                  className="w-full px-4 py-3 border rounded-lg"
-                />
-                <input
-                  type="email" name="email" value={formData.email} onChange={handleInputChange}
-                  placeholder="Email*" required
-                  className="w-full px-4 py-3 border rounded-lg"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input name="name" value={formData.name} onChange={handleInputChange} placeholder="Full Name *" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500" />
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email Address *" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500" />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange}
-                  placeholder="Phone" className="w-full px-4 py-3 border rounded-lg" />
-                <input type="text" name="company" value={formData.company} onChange={handleInputChange}
-                  placeholder="Company" className="w-full px-4 py-3 border rounded-lg" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Phone Number *" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500" />
+                <input name="company" value={formData.company} onChange={handleInputChange} placeholder="Company Name" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500" />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <select name="projectType" value={formData.projectType} onChange={handleInputChange} required
-                  className="w-full px-4 py-3 border rounded-lg">
-                  <option value="">Select project type</option>
-                  {services.map((s, i) => <option key={i} value={s}>{s}</option>)}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <select name="projectType" value={formData.projectType} onChange={handleInputChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                  <option value="">Select Project Type *</option>
+                  {services.map((service, index) => <option key={index} value={service}>{service}</option>)}
                 </select>
-                <select name="budget" value={formData.budget} onChange={handleInputChange}
-                  className="w-full px-4 py-3 border rounded-lg">
-                  <option value="">Budget</option>
-                  <option value="under-50k">Under ₹50,000</option>
-                  <option value="50k-100k">₹50,000 - ₹1,00,000</option>
-                  <option value="100k-250k">₹1,00,000 - ₹2,50,000</option>
-                  <option value="250k-500k">₹2,50,000 - ₹5,00,000</option>
-                  <option value="over-500k">Above ₹5,00,000</option>
+                <select name="budget" value={formData.budget} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                  <option value="">Select Budget</option>
+                  <option value="under-50k">Under $50,000</option>
+                  <option value="50k-100k">$50,000 - $100,000</option>
+                  <option value="100k-250k">$100,000 - $250,000</option>
+                  <option value="250k-500k">$250,000 - $500,000</option>
+                  <option value="over-500k">Over $500,000</option>
                 </select>
               </div>
-
-              <textarea name="message" value={formData.message} onChange={handleInputChange}
-                rows={6} placeholder="Project Details*" required
-                className="w-full px-4 py-3 border rounded-lg"></textarea>
-
-              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg flex items-center justify-center space-x-2">
-                <Send className="h-5 w-5" /> Send Message
+              <select name="timeline" value={formData.timeline} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                <option value="">Select Timeline</option>
+                <option value="asap">As soon as possible</option>
+                <option value="1-3months">1-3 months</option>
+                <option value="3-6months">3-6 months</option>
+                <option value="6-12months">6-12 months</option>
+                <option value="over-1year">Over 1 year</option>
+              </select>
+              <textarea name="message" value={formData.message} onChange={handleInputChange} placeholder="Project Details *" required rows={6} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500" />
+              {feedback && <p className={`mt-2 ${feedback.includes("successfully") ? "text-green-600" : "text-red-600"}`}>{feedback}</p>}
+              <button type="submit" disabled={loading} className={`w-full bg-gradient-to-r from-red-500 to-orange-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}>
+                <Send size={20} /> {loading ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
 
+          {/* Contact Info */}
           <div className="space-y-8">
             <div className="bg-white rounded-xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              {contactInfo.map((info, i) => (
-                <div key={i} className="flex items-start space-x-4 mb-4">
-                  <div className="w-12 h-12 flex items-center justify-center bg-blue-50 rounded-lg">{info.icon}</div>
-                  <div>
-                    <h4 className="font-semibold">{info.title}</h4>
-                    <p>{info.details}</p>
-                    <p className="text-sm text-gray-500">{info.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="bg-blue-50 rounded-xl p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Why Choose BuildPro?</h3>
-              <div className="space-y-3">
-                {[
-                  'Free initial consultation',
-                  'Detailed project estimates',
-                  'Licensed & insured',
-                  '20+ years experience',
-                  'Quality guarantee',
-                  '24/7 customer support'
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <CheckCircle className="h-5 w-5 text-blue-600" />
-                    <span className="text-gray-700">{item}</span>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h3>
+              <div className="space-y-6">
+                {contactInfo.map((info, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">{info.icon}</div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{info.title}</h4>
+                      <p className="text-gray-700">{info.details}</p>
+                      <p className="text-sm text-gray-500">{info.description}</p>
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
-
-
-
-          </div>
-
-
-
-
-
-
-        </div>
-      </section>
-
-
-      {/* Map Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Visit Our Office</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Located in the heart of Building City, we're easily accessible for consultations and meetings.
-            </p>
-          </div>
-
-          <div className="bg-gray-200 rounded-xl h-96 flex items-center justify-center">
-            <div className="text-center">
-              <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">Interactive map would be integrated here</p>
-              <p className="text-sm text-gray-500">123 Construction Ave, Building City, BC 12345</p>
             </div>
           </div>
         </div>
