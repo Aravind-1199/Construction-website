@@ -37,7 +37,7 @@ const Contact: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/sendmail", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
