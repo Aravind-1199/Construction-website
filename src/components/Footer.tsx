@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import emailjs from "@emailjs/browser";
 import {
   HardHat,
   Phone,
@@ -13,15 +14,35 @@ import {
 } from 'lucide-react';
 
 const Footer: React.FC = () => {
-  const [email, setEmail] = useState('');
+ const [email, setEmail] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle newsletter signup
-    console.log('Newsletter signup:', email);
-    setEmail('');
-    alert('Thank you for subscribing to our newsletter!');
+
+    if (!email) return;
+
+    emailjs
+      .send(
+        "service_auhgop8", // replace with your EmailJS service ID
+        "template_5xx9dad", // replace with your EmailJS template ID
+        { user_email: email },
+        "ksyw-ZBxFzVMjFymL" // replace with your EmailJS public key
+      )
+      .then(
+        () => {
+          setSuccess(true);
+          setEmail("");
+          setTimeout(() => {
+            window.location.reload(); // reloads page to clear all state
+          }, 1000);
+        },
+        (err) => {
+          console.error(err.text);
+        }
+      );
   };
+
   const startYear = 2025;
   const currentYear = new Date().getFullYear();
   const yearsOfExperience = currentYear - startYear;
@@ -140,7 +161,7 @@ const Footer: React.FC = () => {
             <p className="text-gray-300 text-sm">
               Stay updated with our latest projects and construction tips.
             </p>
-            <form onSubmit={handleNewsletterSubmit} className="space-y-2">
+            <form onSubmit={handleSubscribe} className="space-y-2">
               <div className="relative">
                 <input
                   type="email"
