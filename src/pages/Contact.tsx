@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Phone,
   Mail,
@@ -6,12 +6,14 @@ import {
   Clock,
   Send,
   CheckCircle,
-  MessageSquare,
-  Calendar,
-  User
 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,19 +35,38 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      projectType: '',
-      budget: '',
-      timeline: '',
-      message: ''
-    });
+    if (!formRef.current) return;
+    setSending(true);
+
+    emailjs
+      .sendForm(
+        'service_jr0m4wi',    // 🔹 Replace with your EmailJS Service ID
+        'template_ryvkh17',   // 🔹 Replace with your EmailJS Template ID
+        formRef.current,
+        'LJjF95FoQiBuJqy4U'     // 🔹 Replace with your EmailJS Public Key
+      )
+      .then(
+        () => {
+          setSending(false);
+          setSuccess(true);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            projectType: '',
+            budget: '',
+            timeline: '',
+            message: ''
+          });
+          setTimeout(() => setSuccess(false), 4000);
+        },
+        (error) => {
+          console.error('Email send error:', error);
+          setSending(false);
+          alert('Failed to send message. Please try again later.');
+        }
+      );
   };
 
   const contactInfo = [
@@ -100,6 +121,7 @@ const Contact: React.FC = () => {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-xl shadow-lg p-8">
@@ -110,7 +132,7 @@ const Contact: React.FC = () => {
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -253,11 +275,22 @@ const Contact: React.FC = () => {
 
                   <button
                     type="submit"
+                    disabled={sending}
                     className="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center space-x-2"
                   >
-                    <Send className="h-5 w-5" />
-                    <span>Send Message</span>
+                    {sending ? 'Sending...' : (
+                      <>
+                        <Send className="h-5 w-5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
                   </button>
+
+                  {success && (
+                    <p className="text-green-600 font-semibold text-center mt-4">
+                      ✅ Message sent successfully! We'll get back to you soon.
+                    </p>
+                  )}
                 </form>
               </div>
             </div>
@@ -323,15 +356,13 @@ const Contact: React.FC = () => {
               width="100%"
               height="450"
               style={{ border: 0 }}
-              allowFullScreen={true}
+              allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
-
           </div>
         </div>
       </section>
-
     </div>
   );
 };
