@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import emailjs from "@emailjs/browser";
+import logo from '../components/Images/Untitled_design-removebg-preview.png'
 import {
   HardHat,
   Phone,
@@ -53,10 +54,17 @@ const Footer: React.FC = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="bg-blue-600 p-2 rounded-lg">
-                <HardHat className="h-6 w-6 text-white" />
+               <img
+                src={logo}
+                alt="Amman Construction Logo"
+                className="h-20 w-20 object-contain block"
+                style={{ marginBottom: -10 }} // correct camelCase
+              />
+              <div style={{ marginLeft: -10 }} >
+                <span className="text-2xl font-bold">
+                  Amman Construction
+                </span>
               </div>
-              <span className="text-2xl font-bold">Amman Construction</span>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               Building dreams with precision and excellence. Your trusted construction partner for over {yearsOfExperience} years.
